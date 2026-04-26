@@ -25,30 +25,33 @@ const PageLoader = ({ onComplete }) => {
 
   // Text + progress logic
   useEffect(() => {
+    // rotating messages
     const msgTimer = setInterval(() => {
       setMsgIndex((prev) => (prev + 1) % messages.length);
     }, 1600);
 
+    // fake progress till 95%
     let fake = 0;
     const timer = setInterval(() => {
-      fake += Math.random() * 8;
+      fake += Math.random() * 7;
       setProgress((prev) => Math.min(Math.max(prev, fake), 95));
     }, 200);
 
-    window.addEventListener("load", () => {
+    // ⭐ HARD FAILSAFE FINISH (mobile safe)
+    const finishTimer = setTimeout(() => {
+      setProgress(100);
+      triggerCoinBurst();
+
       setTimeout(() => {
-        setProgress(100);
-        triggerCoinBurst();
-        setTimeout(() => {
-          setShow(false);
-          setTimeout(onComplete, 600);
-        }, 900);
-      }, 800);
-    });
+        setShow(false);
+        setTimeout(onComplete, 600);
+      }, 900);
+    }, 3500); // loader always ends after 3.5s
 
     return () => {
       clearInterval(timer);
       clearInterval(msgTimer);
+      clearTimeout(finishTimer);
     };
   }, [onComplete]);
 
@@ -69,24 +72,32 @@ const PageLoader = ({ onComplete }) => {
         duration: 0.7,
         ease: "power2.inOut",
       })
-      .from(cardRef.current, {
-        scale: 0,
-        opacity: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)",
-      }, "-=0.3")
+      .from(
+        cardRef.current,
+        {
+          scale: 0,
+          opacity: 0,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        },
+        "-=0.3",
+      )
       .from(arrow2.current, { x: -30, opacity: 0, duration: 0.4 })
       .to(cardRef.current, {
         x: 120,
         duration: 0.7,
         ease: "power2.inOut",
       })
-      .from(walletRef.current, {
-        scale: 0,
-        opacity: 0,
-        duration: 0.6,
-        ease: "back.out(1.7)",
-      }, "-=0.3")
+      .from(
+        walletRef.current,
+        {
+          scale: 0,
+          opacity: 0,
+          duration: 0.6,
+          ease: "back.out(1.7)",
+        },
+        "-=0.3",
+      )
       .to(walletRef.current, {
         keyframes: { scale: [1, 1.2, 1] },
         duration: 0.6,
@@ -108,7 +119,7 @@ const PageLoader = ({ onComplete }) => {
           duration: 1.2,
           delay: i * 0.05,
           ease: "power3.out",
-        }
+        },
       );
     });
   };
