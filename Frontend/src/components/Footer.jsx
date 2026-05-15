@@ -1,5 +1,6 @@
 import React from "react";
 import { Mail, Share2, Globe } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -18,13 +19,16 @@ const Footer = () => {
         {/* QUICK LINKS */}
         <div>
           <h3 className="font-semibold text-gray-300 mb-4">Quick Links</h3>
-          <ul className="space-y-3 text-gray-500">
-            <li className="hover:text-blue-900 cursor-pointer">
-              Terms of Service
-            </li>
-            <li className="hover:text-blue-900 cursor-pointer">
+          <ul className="space-y-0 text-gray-500">
+            <Link to="/terms">
+              <li className="hover:text-blue-900 cursor-pointer">
+                Terms of Service
+              </li>
+            </Link>
+
+            <Link to="/privacy" className="hover:text-blue-900 cursor-pointer">
               Privacy Policy
-            </li>
+            </Link>
             <li className="hover:text-blue-900 cursor-pointer">Security</li>
             <li className="hover:text-blue-900 cursor-pointer">About Us</li>
           </ul>
