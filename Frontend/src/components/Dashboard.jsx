@@ -40,7 +40,9 @@ const SeamlessInvesting = () => {
   const current = dashboardData[active];
 
   return (
-    <section className="py-24 overflow-hidden font-poppins">
+    <section 
+    id="dashboard"
+    className="py-24 overflow-hidden font-poppins">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Section Heading */}

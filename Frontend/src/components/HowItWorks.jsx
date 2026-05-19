@@ -54,6 +54,7 @@ const HowItWorks = () => {
 
   return (
     <section
+      id="work"
       ref={sectionRef}
       className="bg-white py-32 overflow-hidden font-poppins"
     >

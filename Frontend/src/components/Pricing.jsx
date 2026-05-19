@@ -58,11 +58,14 @@ const plans = [
   },
 ];
 
+const handlePlanClick = () => {
+  window.open("https://admin.zemsto.com/", "_blank");
+};
+
 const Pricing = () => {
   return (
-    <section className="bg-[#F4F7FB] py-24 px-6">
+    <section id="plan" className="bg-[#F4F7FB] py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold text-[#0B3C5D]">
@@ -96,9 +99,7 @@ const Pricing = () => {
                 </div>
               )}
 
-              <h3 className="text-xl font-bold text-[#0B3C5D]">
-                {plan.name}
-              </h3>
+              <h3 className="text-xl font-bold text-[#0B3C5D]">{plan.name}</h3>
               <p className="text-sm text-gray-500">{plan.duration}</p>
 
               <div className="mt-6 mb-6">
@@ -117,12 +118,13 @@ const Pricing = () => {
               </ul>
 
               <button
+                onClick={handlePlanClick}
                 className={`w-full py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition
-                ${
-                  plan.popular
-                    ? "bg-[#2ECC71] hover:bg-[#27ae60]"
-                    : "bg-[#0B3C5D] hover:bg-[#082c44]"
-                }`}
+  ${
+    plan.popular
+      ? "bg-[#2ECC71] hover:bg-[#27ae60]"
+      : "bg-[#0B3C5D] hover:bg-[#082c44]"
+  }`}
               >
                 Choose Plan
                 <ArrowRight size={18} />

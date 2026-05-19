@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const navItems = [
-  "How it Works",
-  "Benefits",
-  "Plans",
-  "For Schools",
-  "Kids Zone",
+  { label: "How it Works", id: "work" },
+  { label: "Benefits", id: "benefits" },
+  { label: "Plans", id: "plan" },
+  { label: "For Schools", id: "dashboard" },
+  { label: "Kids Zone", id: "kidzone" },
 ];
 
 const Navbar = () => {
@@ -17,6 +18,8 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Navbar entrance animation
   useEffect(() => {
@@ -46,6 +49,32 @@ const Navbar = () => {
     }
   }, [open]);
 
+  const scrollToSection = (id) => {
+    // If already on homepage → scroll directly
+    if (location.pathname === "/") {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // If on another page → go home then scroll
+      navigate("/", { state: { scrollTo: id } });
+    }
+
+    setOpen(false); // close mobile drawer
+  };
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      setTimeout(() => {
+        const el = document.getElementById(location.state.scrollTo);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100); // wait for DOM render
+    }
+  }, [location]);
+
+  const handleLogoClick = () => {
+    scrollToSection("hero");
+  };
+
   return (
     <>
       {/* NAVBAR WRAPPER */}
@@ -62,6 +91,7 @@ const Navbar = () => {
             whileHover={{ rotate: -5, scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
             className="h-10 w-auto cursor-pointer"
+            onClick={handleLogoClick}
           />
 
           {/* DESKTOP MENU */}
@@ -69,6 +99,7 @@ const Navbar = () => {
             {navItems.map((item, index) => (
               <motion.button
                 key={index}
+                onClick={() => scrollToSection(item.id)}
                 onHoverStart={() => setActive(index)}
                 onHoverEnd={() => setActive(null)}
                 className="relative px-5 py-2 rounded-lg text-sm font-medium text-gray-700 z-10 flex items-center"
@@ -81,9 +112,9 @@ const Navbar = () => {
                   />
                 )}
 
-                <span className="relative z-20">{item}</span>
+                <span className="relative z-20">{item.label}</span>
 
-                {item === "Plans" && (
+                {item.label === "Plans" && (
                   <span className="ml-2 text-xs secondary text-white px-2 py-0.5 rounded-full relative z-20">
                     Popular
                   </span>
@@ -96,6 +127,7 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {/* CTA Desktop */}
             <motion.button
+              onClick={() => scrollToSection("contact")}
               whileHover={{ scale: 1.08, y: -2 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
@@ -142,13 +174,15 @@ const Navbar = () => {
               {navItems.map((item, index) => (
                 <button
                   key={index}
+                  onClick={() => scrollToSection(item.id)}
                   className="text-lg font-medium text-gray-700 text-left"
                 >
-                  {item}
+                  {item.label}
                 </button>
               ))}
 
               <motion.button
+                onClick={() => scrollToSection("contact")}
                 whileTap={{ scale: 0.95 }}
                 className="accent text-white py-3 rounded-xl mt-4 font-semibold shadow-md"
               >

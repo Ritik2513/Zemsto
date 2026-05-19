@@ -39,7 +39,9 @@ const Card = ({ image, title, desc, className }) => {
 
 const Benefits = () => {
   return (
-    <section className="bg-black py-28 px-6 font-poppins">
+    <section  
+    id="benefits"
+    className="bg-black py-28 px-6 font-poppins">
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}

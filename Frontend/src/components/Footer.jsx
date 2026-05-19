@@ -55,14 +55,6 @@ const Footer = () => {
                 Sector-44, Noida, Uttar Pradesh 201303, India
               </p>
             </div>
-
-            <div>
-              <p className="font-semibold text-gray-400">Office Address</p>
-              <p>
-                507, 5th Floor, G - 14, Sector - 3 <br />
-                Noida, Uttar Pradesh 201301
-              </p>
-            </div>
           </div>
         </div>
       </div>

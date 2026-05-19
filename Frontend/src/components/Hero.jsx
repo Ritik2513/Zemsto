@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { motion } from "framer-motion";
 import { ShieldCheck, Zap, Gift } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import CashbackCard from "../assets/Hero/cashback-card.png";
 import FloatingCoins from "../assets/Hero/floating-coins.png";
@@ -11,6 +12,8 @@ import Phone from "../assets/Hero/phone-mockup.png";
 
 const Hero = () => {
   const heroRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -24,7 +27,7 @@ const Hero = () => {
         .from(
           ".hero-title span",
           { y: 80, opacity: 0, stagger: 0.12, duration: 0.8 },
-          "-=0.2"
+          "-=0.2",
         )
         .from(".hero-sub", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
         .from(".hero-cta", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
@@ -45,8 +48,35 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
+  const scrollToSection = (id) => {
+    // If already on homepage → scroll directly
+    if (location.pathname === "/") {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // If on another page → go home then scroll
+      navigate("/", { state: { scrollTo: id } });
+    }
+
+    setOpen(false); // close mobile drawer
+  };
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      setTimeout(() => {
+        const el = document.getElementById(location.state.scrollTo);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100); // wait for DOM render
+    }
+  }, [location]);
+
+  const handleLogoClick = () => {
+    scrollToSection("plan");
+  };
+
   return (
     <section
+      id="hero"
       ref={heroRef}
       className="pt-36 pb-20 overflow-hidden px-4 bg-gradient-to-b from-white to-gray-50"
     >
@@ -77,6 +107,7 @@ const Hero = () => {
           {/* CTA */}
           <div className="hero-cta flex gap-4 mt-8">
             <motion.button
+              onClick={handleLogoClick}
               whileHover={{ scale: 1.07, y: -3 }}
               whileTap={{ scale: 0.95 }}
               className="bg-[#0B3C5D] text-white px-6 py-3 rounded-xl font-semibold shadow-lg"
@@ -85,9 +116,10 @@ const Hero = () => {
             </motion.button>
 
             <motion.button
+              onClick={handleLogoClick}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="border border-gray-300 px-6 py-3 rounded-xl font-semibold text-gray-700"
+              className="border border-gray-300 px-6 py-3 rounded-xl font-semibold text-gray-700 cursor-pointer"
             >
               View Plans
             </motion.button>
@@ -127,11 +159,10 @@ const Hero = () => {
             </div>
 
             <div>
-              <p className="text-xs text-gray-500 font-medium">
-                TOTAL IMPACT
-              </p>
+              <p className="text-xs text-gray-500 font-medium">TOTAL IMPACT</p>
               <p className="text-lg font-bold text-[#0B3C5D]">
-                ₹12,48,32,000 <span className="text-green-600 text-sm">saved</span>
+                ₹12,48,32,000{" "}
+                <span className="text-green-600 text-sm">saved</span>
               </p>
             </div>
           </div>

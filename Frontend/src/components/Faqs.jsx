@@ -99,7 +99,7 @@ const Faqs = () => {
           </div>
 
           {/* Support CTA */}
-          <div className="mt-14 bg-[#062c42] text-white rounded-3xl p-8 md:p-12 text-center shadow-xl">
+          <div id="contact" className="mt-14 bg-[#062c42] text-white rounded-3xl p-8 md:p-12 text-center shadow-xl">
             <h3 className="text-xl md:text-2xl font-semibold">
               Still have questions?
             </h3>

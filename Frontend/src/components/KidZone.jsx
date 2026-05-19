@@ -3,7 +3,7 @@ import KidImage from "../assets/KidZone/kid.jpg"
 
 const KidZone = () => {
   return (
-    <section className="w-full py-16 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#020617]">
+    <section id="kidzone" className="w-full py-16 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#020617]">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         {/* LEFT CONTENT */}
         <div className="text-white">
